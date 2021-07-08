@@ -9,5 +9,5 @@ public class Conector {
         }
     }
 
-    public native static byte[] crypt(byte[] texto);
+    public native static String crypt(String texto);
 }

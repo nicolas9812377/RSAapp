@@ -21,7 +21,7 @@ int mcd(int, int);
 bool verificar1(char []);
 bool verificar2(char *);
 void concatenar(char *, char *);
-jstring convertInt(long long int);
+char* convertInt(long long int);
 
 
 #endif //RSA_APP_RSA_H
