@@ -8,13 +8,14 @@
 #include <time.h>
 #include <stdbool.h>
 #include <jni.h>
+#include "rsa.h"
 
 
 static int q = 0, p = 0;
 static long long int n = 0, fi = 0;
 static long long int e = 0, d = 0;
 static char Abc[68] = "0123456789abcdefghijklmnñopqrstuvwxyz ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
-static char resultado[1024];
+//static char resultado[1024];
 
 //strcpy(Abc, "0123456789abcdefghijklmnñopqrstuvwxyz ABCDEFGHIJKLMNÑOPQRSTUVWXYZ");
 
@@ -115,6 +116,7 @@ void concatenar(char *T, char *S)
 
 char * convertInt(long long int number)
 {
+
     if(number == 0)
         return  0;
     char temp [8] = "";
@@ -128,65 +130,75 @@ char * convertInt(long long int number)
         number/=10;
         cont++;
     }
+    //return temp;
+    //char valuet = "";
+    //memset(returnvalue, 0, cont);
+    //memcpy(returnvalue,temp,cont);
+    //strcpy(returnvalue,temp);
 
-    char * returnvalue;
-    strcpy(returnvalue,temp);
-    for(int i=0; i<cont; i++){
+    for(int i=0; i<cont/2; i++){
         //strcat(returnvalue,temp[strlen(temp)-i-1]);
-        returnvalue[i] = temp[cont-i-1];
+        char* valuet = (char*)temp[i];
+        temp[i] = temp[cont-i-1];
+        temp[cont-i-1] = valuet;
     }
 
-    return returnvalue;
+    return temp;
 }
 
 //clave publica (e, n)
-long long int cifrarCaracter(long long int men)
+int cifrarCaracter(int men)
 {
-    long long int C = 1;
+    int C = 1;
     for(int i=0; i<e ; i++)
         C=C*men%n;
     C = C%n;
     return C;
 }
 
-//cifrar x, convertirlo a char y luego copiar caracter a caracter y sumarle un espacio en blanco,
-//todo a un arreglo de caracteres, ejemplo: "19203 12843 2837"
-char * cifrarTexto(char *T)
+//cifrar x, convertirlo a char y luego copiar caracter a caracter y sumarle un espacio en blanco, ejemplo: 19203 12843 2837
+int cifrarTexto(char *T, char* buff)
 {
     generarPrimos();
     generarClaves();
     char *cadena, *pt;
     char * temp;
-    strcpy(resultado, "\0");
+    //strcpy(resultado, "\0");
     pt=T;
+    int cont = 0;
     for(int i=0; i<strlen(T); i++)
     {
         for(int x=0; x<strlen(Abc); x++)
         {
             if(*pt == Abc[x])
             {
+
+                //memcpy(buff,tt,strlen(T));
                 temp= convertInt(cifrarCaracter(x));
-                cadena= strdup(temp);
-                concatenar(resultado, cadena);
+                //strcat(buff, temp);
+                //cadena= strdup(temp);
+                concatenar(buff, temp);
                 pt++;
+                cont++;
                 break;
             }
         }
     }
-    return resultado;
+
+    return 0;
 }
 
 
 //funcion para saber si, dentro del arreglo de caracteres, hay solo numeros, retorna true si se cumple, false de lo contrario
-bool verificar2(char *T)
+int verificar2(char *T)
 {
-    bool band;
+    int band;
     while(*T != '\0')
     {
         if(*T=='1' || *T=='2' || *T=='3' || *T=='4' || *T=='5' || *T=='6' || *T=='7' || *T=='8' || *T=='9' || *T=='0' || *T==' ' )
-            band= true;
+            band= 1;
         else
-            return false;
+            return 0;
         T++;
     }
     return band;
@@ -194,7 +206,7 @@ bool verificar2(char *T)
 
 //funcion para saber si, dentro del arreglo de caracteres, hay un espacio despues de cada grupo de numeros alfanumericos,
 //retorna true si se cumple, false de lo contrario
-bool verificar1(char texto[])
+int verificar1(char texto[])
 {
     int i=0, c=0;
     if(texto[i]==' ')
@@ -212,10 +224,10 @@ bool verificar1(char texto[])
             i++;
     }
     if(i==0)
-        return false;
+        return 0;
     if(texto[i-1]==' ')
         c--;
-    return true;
+    return 1;
 }
 
 //clave privada (d, n)
@@ -232,15 +244,15 @@ long long int descifrarCaracter(long long int men)
 //se recibe un arreglo de caracteres (numeros separados x espacios), se sacan de uno cada caracter hasta encontrar un espacio,
 //y se convierte a un numero compacto, se descifra y como resultado dara una letra, esa letra se mete en resultado hasta descifrar todo
 //y obtener el texto plano
-char * descifrarTexto(char *T)
+int descifrarTexto(char *T,char* buff)
 {
     char *pt, cadena[15];
     pt=T;
     int c= 0, j= 0;
     long long int num;
-    strcpy(resultado, "\0");
+    //strcpy(resultado, "\0");
 
-    if( verificar1(T) && verificar2(T) )
+    if( verificar1(T) == 1 && verificar2(T) == 1)
     {
         for(int i= 0; i< strlen(T); i++)
         {
@@ -254,7 +266,7 @@ char * descifrarTexto(char *T)
             {
                 cadena[c]= '\0';
                 num= atoll(cadena);
-                resultado[j]= Abc[descifrarCaracter(num)];
+                buff[j]= Abc[descifrarCaracter(num)];
                 c= 0;
                 j++;
                 pt++;
@@ -262,14 +274,14 @@ char * descifrarTexto(char *T)
         }
         cadena[c]= '\0';
         num= atoll(cadena);
-        resultado[j]= Abc[descifrarCaracter(num)];
+        buff[j]= Abc[descifrarCaracter(num)];
         c= 0;
         j++;
-        resultado[j]= '\0';
+        buff[j]= '\0';
     }
     else
-        return (char*)"Error.";
-    return resultado;
+        return 0;
+    return 0;
 }
 
 void insertarP(int x)

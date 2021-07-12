@@ -21,7 +21,12 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tv.setText(Conector.crypt("Hola mundo"));
+                try {
+                    tv.setText((Conector.crypt("Holasddsfsfsfsfsd")));
+                }catch (Exception ex){
+                    System.out.println(ex.getMessage());
+                }
+
             }
         });
 

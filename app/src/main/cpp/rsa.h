@@ -4,22 +4,21 @@
 
 #ifndef RSA_APP_RSA_H
 #define RSA_APP_RSA_H
-
 void insertarP(int);
 void insertarQ(int);
 int primoAleatorio();
 void generarPrimos();
 void generarClaves();
-long long int cifrarCaracter(long long int);
-char *cifrarTexto(char *);
+int cifrarCaracter(int);
+int cifrarTexto(char *,char *);
 long long int descifrarCaracter(long long int);
-char *descifrarTexto(char *);
+int descifrarTexto(char *, char *);
 //void mostrar();
 
 //metodos utilitarios
 int mcd(int, int);
-bool verificar1(char []);
-bool verificar2(char *);
+int verificar1(char []);
+int verificar2(char *);
 void concatenar(char *, char *);
 char* convertInt(long long int);
 
