@@ -2,9 +2,13 @@ package com.example.rsa_app;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -15,18 +19,44 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Example of a call to a native method
-        TextView tv = findViewById(R.id.sample_text);
-        Button btn = findViewById(R.id.button);
-        btn.setOnClickListener(new View.OnClickListener() {
+        Button btnTexto = findViewById(R.id.btnTexto);
+        EditText txtpersona = findViewById(R.id.txtpersona);
+        txtpersona.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Metricas.nombre = txtpersona.getText().toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        btnTexto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    tv.setText((Conector.crypt("Holasddsfsfsfsfsd")));
-                }catch (Exception ex){
-                    System.out.println(ex.getMessage());
-                }
+                startActivity(new Intent(MainActivity.this,Texto.class));
+            }
+        });
 
+        Button btnarchivos = findViewById(R.id.btnArchivos);
+        btnarchivos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,Archivos.class));
+            }
+        });
+
+        Button btnGraficos = findViewById(R.id.btnGraficos);
+        btnGraficos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //startActivity(new Intent(MainActivity.this,Graficos.class));
             }
         });
 
