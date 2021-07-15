@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //Metricas.nombre = txtpersona.getText().toString();
+                Conector.nombre = txtpersona.getText().toString();
             }
 
             @Override
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         btnGraficos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(MainActivity.this,Graficos.class));
+                startActivity(new Intent(MainActivity.this,Graficas.class));
             }
         });
 

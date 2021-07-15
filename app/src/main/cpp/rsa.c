@@ -14,7 +14,7 @@
 static int q = 0, p = 0;
 static long long int n = 0, fi = 0;
 static long long int e = 0, d = 0;
-static char Abc[68] = "0123456789abcdefghijklmnñopqrstuvwxyz ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+static char Abc[71] = "0123456789abcdefghijklmnñopqrstuvwxyz ABCDEFGHIJKLMNÑOPQRSTUVWXYZ+/=";
 //static char resultado[1024];
 
 //strcpy(Abc, "0123456789abcdefghijklmnñopqrstuvwxyz ABCDEFGHIJKLMNÑOPQRSTUVWXYZ");
@@ -117,24 +117,21 @@ void concatenar(char *T, char *S)
 char * convertInt(long long int number)
 {
 
-    if(number == 0)
-        return  0;
+    if(number == 0){
+        char t[2] = "";
+        t[0]=0+48;
+        return  t;
+    }
     char temp [8] = "";
     int cont = 0;
     while (number>0)
     {
-        //strcat(temp, (char *)t);
         //temp+=(number%10+48)+0x30;
         char tt = (number%10)+48;
         temp[cont] = tt;
         number/=10;
         cont++;
     }
-    //return temp;
-    //char valuet = "";
-    //memset(returnvalue, 0, cont);
-    //memcpy(returnvalue,temp,cont);
-    //strcpy(returnvalue,temp);
 
     for(int i=0; i<cont/2; i++){
         //strcat(returnvalue,temp[strlen(temp)-i-1]);
@@ -249,7 +246,7 @@ int descifrarTexto(char *T,char* buff)
     char *pt, cadena[15];
     pt=T;
     int c= 0, j= 0;
-    long long int num;
+    int num;
     //strcpy(resultado, "\0");
 
     if( verificar1(T) == 1 && verificar2(T) == 1)
@@ -293,6 +290,16 @@ void insertarQ(int x)
 {
     q=x;
 }
+/*
+int leres(char path,char texto){
+    FILE * file = fopen(path,"w+");
+    if (file != NULL) {
+        fputs(texto, file);
+        fflush(file);
+        fclose(file);
+    }
+    return 0;
+}*/
 
 /*
 void mostrar()

@@ -51,11 +51,18 @@ public class Archivos extends AppCompatActivity {
                 try {
                     //imprimir(Conector.encodeBase64File(txtpath.getText().toString()));
                     String bs = Conector.encodeBase64File(txtpath.getText().toString());
-                    textView3.setText(bs);
-                    String enc = Conector.crypt(bs);
-                    String dec = Conector.decrypt(enc);
                     String[] listap = txtpath.getText().toString().split("\\.");
+                    //Conector.toFile(bs,listap[0]+" base64."+listap[1]);
+                    //textView3.setText(bs);
+
+                    String enc = Conector.crypt(bs.replaceAll("\n",""));
+                    double [] metricas = Conector.memory();
+                    Conector.wcsv(1,bs.length(),0,metricas[1],metricas[0]);
+                    String dec = Conector.decrypt(enc);
+                    metricas = Conector.memory();
+                    Conector.wcsv(1,bs.length(),1,metricas[1],metricas[0]);
                     Conector.decoderBase64File(dec,listap[0]+" encriptado."+listap[1]);
+                    imprimir("acabo");
                     //
                 } catch (Exception e) {
                     e.printStackTrace();

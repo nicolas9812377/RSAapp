@@ -13,6 +13,7 @@ int cifrarCaracter(int);
 int cifrarTexto(char *,char *);
 long long int descifrarCaracter(long long int);
 int descifrarTexto(char *, char *);
+//int leres(char, char);
 //void mostrar();
 
 //metodos utilitarios

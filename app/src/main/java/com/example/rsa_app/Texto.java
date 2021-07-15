@@ -25,8 +25,12 @@ public class Texto extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String cryptado = Conector.crypt(txttexto.getText().toString());
+                double [] metricas = Conector.memory();
+                Conector.wcsv(0,txttexto.getText().length(),0,metricas[1],metricas[0]);
                 txtencr.setText(cryptado);
                 txtdes.setText(Conector.decrypt(cryptado));
+                metricas = Conector.memory();
+                Conector.wcsv(0,txttexto.getText().length(),1,metricas[1],metricas[0]);
             }
         });
 
